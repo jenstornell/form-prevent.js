@@ -12,7 +12,33 @@
 
   <script src="assets/js/form-autoprevent.js"></script>
   <script>
-    let form = new FormAutoprevent({
+    async function test() {
+      const [userResponse] = await Promise.all([
+        fetch('form1.html', { cache: "no-store", mode: "same-origin" })
+          .then((response) => response.text())
+          .then((html) => document.querySelector('.form-wrapper').innerHTML = html),
+        //fetchPostsAsync(),
+      ]);
+
+      return true;
+
+      return userResponse;
+    }
+
+    test().then((response) => {
+      let form = new FormAutoprevent({
+        selector: '.form-wrapper',
+        ruleset: 'form1.json'
+      });
+
+      form.render();
+
+      form.addEventListener("form:after", (e) => {
+        console.log(e.detail);
+      });
+    });
+
+    /*let form = new FormAutoprevent({
       selector: '.form-wrapper',
       template: 'form1.html',
       ruleset: 'form1.json'
@@ -26,7 +52,7 @@
     form.addEventListener("form:loaded", () => {
       console.log('loaded');
     });
-    form.render();
+    form.render();*/
   </script>
 </body>
 

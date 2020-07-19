@@ -7,19 +7,11 @@ class FormAutoprevent extends EventTarget {
 
   // Render
   render() {
-    this.setHtml();
+    this.setValidators();
   }
 
-  // Set html
-  setHtml() {
-    fetch(this.o.template, { cache: "no-store", mode: "same-origin" })
-      .then((response) => {
-        return response.text();
-      })
-      .then((html) => {
-        document.querySelector(this.o.selector).innerHTML = html;
-        this.setValidators();
-      });
+  set template(html) {
+    this.html = html;
   }
 
   // Set validators
