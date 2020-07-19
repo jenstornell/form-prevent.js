@@ -23,6 +23,9 @@
     form.addEventListener("form:after", (e) => {
       console.log(e.detail);
     });
+    form.addEventListener("form:loaded", () => {
+      console.log('loaded');
+    });
     form.render();
   </script>
 </body>

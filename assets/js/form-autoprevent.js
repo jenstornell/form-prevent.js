@@ -12,7 +12,7 @@ class FormAutoprevent extends EventTarget {
 
   // Set html
   setHtml() {
-    fetch(this.o.template)
+    fetch(this.o.template, { cache: "no-store", mode: "same-origin" })
       .then((response) => {
         return response.text();
       })
@@ -24,7 +24,7 @@ class FormAutoprevent extends EventTarget {
 
   // Set validators
   setValidators() {
-    fetch(this.o.ruleset)
+    fetch(this.o.ruleset, { cache: "no-store", mode: "same-origin" })
       .then((response) => response.json())
       .then((data) => {
         this.validators = data;
@@ -37,6 +37,7 @@ class FormAutoprevent extends EventTarget {
         }
 
         this.setEvent();
+        this.triggerEventLoaded();
       });
   }
 
@@ -61,8 +62,10 @@ class FormAutoprevent extends EventTarget {
 
     this.triggerEventBefore(formdata, success);
 
+    const action = e.currentTarget.getAttribute("action");
+
     let request = new XMLHttpRequest();
-    request.open("POST", "http://localhost/libraries/form-autoprevent/api.php");
+    request.open("POST", action);
     request.send(formdata);
     request.onload = () => {
       this.triggerEventAfter(request.response);
@@ -80,6 +83,12 @@ class FormAutoprevent extends EventTarget {
       if (value !== match) success = false;
     }
     return success;
+  }
+
+  // Trigger event loaded
+  triggerEventLoaded() {
+    this.customEventLoaded = new CustomEvent("form:loaded");
+    this.dispatchEvent(this.customEventLoaded);
   }
 
   // Trigger custom event
