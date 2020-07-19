@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="form-wrapper"></div>
+
+  <script src="assets/js/form-autoprevent.js"></script>
+  <script>
+    let form = new FormAutoprevent({
+      selector: '.form-wrapper'
+    });
+    form.addEventListener("form_submit", (e) => {
+      console.log(e.detail);
+    });
+    form.render();
+  </script>
+</body>
+
+</html>
