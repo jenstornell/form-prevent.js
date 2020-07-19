@@ -13,9 +13,14 @@
   <script src="assets/js/form-autoprevent.js"></script>
   <script>
     let form = new FormAutoprevent({
-      selector: '.form-wrapper'
+      selector: '.form-wrapper',
+      template: 'form1.html',
+      ruleset: 'form1.json'
     });
-    form.addEventListener("form_submit", (e) => {
+    form.addEventListener("form:before", (e) => {
+      console.log(e.detail);
+    });
+    form.addEventListener("form:after", (e) => {
       console.log(e.detail);
     });
     form.render();

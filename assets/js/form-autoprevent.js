@@ -12,7 +12,7 @@ class FormAutoprevent extends EventTarget {
 
   // Set html
   setHtml() {
-    fetch("form1.html")
+    fetch(this.o.template)
       .then((response) => {
         return response.text();
       })
@@ -24,7 +24,7 @@ class FormAutoprevent extends EventTarget {
 
   // Set validators
   setValidators() {
-    fetch("form1.json")
+    fetch(this.o.ruleset)
       .then((response) => response.json())
       .then((data) => {
         this.validators = data;
@@ -52,13 +52,21 @@ class FormAutoprevent extends EventTarget {
     return new FormData(document.querySelector(`${this.o.selector} form`));
   }
 
+  // Handle submit
   handleSubmit(e) {
     e.preventDefault();
 
-    const form = this.getFormData();
-    const success = this.isSuccessful(form);
+    const formdata = this.getFormData();
+    const success = this.isSuccessful(formdata);
 
-    this.triggerCustomEvent(form, success);
+    this.triggerEventBefore(formdata, success);
+
+    let request = new XMLHttpRequest();
+    request.open("POST", "http://localhost/libraries/form-autoprevent/api.php");
+    request.send(formdata);
+    request.onload = () => {
+      this.triggerEventAfter(request.response);
+    };
   }
 
   // Is successful
@@ -75,13 +83,23 @@ class FormAutoprevent extends EventTarget {
   }
 
   // Trigger custom event
-  triggerCustomEvent(form, success) {
-    this.customEvent = new CustomEvent("form_submit", {
+  triggerEventBefore(form, success) {
+    this.customEventBefore = new CustomEvent("form:before", {
       detail: {
         form: success ? form : null,
         success: success,
       },
     });
-    this.dispatchEvent(this.customEvent);
+    this.dispatchEvent(this.customEventBefore);
+  }
+
+  // Trigger event after
+  triggerEventAfter(response) {
+    this.customEventAfter = new CustomEvent("form:after", {
+      detail: {
+        response: response,
+      },
+    });
+    this.dispatchEvent(this.customEventAfter);
   }
 }
