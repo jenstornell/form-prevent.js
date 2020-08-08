@@ -26,8 +26,8 @@ Somewhere within `<body></body>` in your HTML file.
 >
   <input type="text"" name="username" />
 
-  <input type="text" name="honeypot" value="John" />
-  <input type="text" name="has_to_be_blue" value="Doe" />
+  <input type="hidden" name="honeypot" value="" />
+  <input type="hidden" name="has_to_be_blue" value="Doe" />
 
   <input type="submit" value="Submit" />
 </form-prevent>
@@ -48,7 +48,6 @@ In the `<form-prevent ruleset="ruleset.json">` you specify the path you your rul
 ```json
 {
   "honeypot": {
-    "value": "",
     "match": ""
   },
   "has_to_be_blue": {
@@ -56,6 +55,38 @@ In the `<form-prevent ruleset="ruleset.json">` you specify the path you your rul
     "match": "blue"
   }
 }
+```
+
+## Events
+
+When the data is submitted events are called, one before and one after. Place these scripts right before `</body>`.
+
+### `submit:before`
+
+Fired just before a form is submitted. It may be used to check some other validation rules if needed.
+
+```html
+<script>
+  document
+    .querySelector("form-prevent")
+    .addEventListener("submit:before", (e) => {
+      console.log(e.detail);
+    });
+</script>
+```
+
+### `submit:after`
+
+Fired when the data has been submitted and has the collected data in `e.detail`.
+
+```html
+<script>
+  document
+    .querySelector("form-prevent")
+    .addEventListener("submit:after", (e) => {
+      console.log(e.detail);
+    });
+</script>
 ```
 
 ## How it works

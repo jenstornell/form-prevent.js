@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <form-prevent id="hello" action="api.php" ruleset="ruleset.json"
+    salt="4420d1918bbcf7686defdf9560bb5087d20076de5f77b7cb4c3b40bf46ec428b" sleep="2">
+    <input type="text"" name=" username" />
+
+    <input type="hidden" name="honeypot" value="" />
+    <input type="hidden" name="has_to_be_blue" value="Hello" />
+
+    <input type="submit" value="Submit" />
+  </form-prevent>
+
+  <script src="assets/js/form-prevent.js"></script>
+  <script>
+    document.querySelector('form-prevent').addEventListener('submit:after', (e) => {
+      console.log(e.detail);
+    });
+  </script>
+</body>
+
+</html>

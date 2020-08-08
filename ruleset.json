@@ -1,0 +1,9 @@
+{
+  "honeypot": {
+    "match": ""
+  },
+  "has_to_be_blue": {
+    "value": "blue",
+    "match": "blue"
+  }
+}
