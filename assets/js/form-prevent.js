@@ -52,7 +52,6 @@ class FormPrevent extends HTMLElement {
 
   // Trigger event before
   triggerEventBefore(formdata, success) {
-    console.log("asda");
     this.customEventBefore = new CustomEvent("submit:before", {
       detail: {
         formdata: success ? formdata : null,

@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <form-prevent action="http://localhost/libraries/form-autoprevent/api.php" ruleset="form1.json" salt="4420d1918bbcf7686defdf9560bb5087d20076de5f77b7cb4c3b40bf46ec428b">
+  <form-prevent id="hello" action="http://localhost/libraries/form-autoprevent/api.php" ruleset="form1.json" salt="4420d1918bbcf7686defdf9560bb5087d20076de5f77b7cb4c3b40bf46ec428b">
     <input type="text" value="ooopa" name="foobar">
 
     <label for="fname">First name:</label><br>
