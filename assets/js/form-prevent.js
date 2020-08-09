@@ -77,7 +77,7 @@ class FormPrevent extends HTMLElement {
   // Store ruleset
   storeRuleset() {
     const myRequest = new Request(this.rulesetPath);
-    fetch(myRequest, { cache: "no-store" })
+    fetch(myRequest, { cache: "no-store", mode: "same-origin" })
       .then((response) => response.json())
       .then((data) => {
         this.ruleset = data;

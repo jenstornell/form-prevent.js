@@ -1,6 +1,6 @@
 # form-prevent.js
 
-_Version 0.2_
+_Version 0.3_
 
 A small vanilla javascript HTML web component to prevent automatic form spam.
 
