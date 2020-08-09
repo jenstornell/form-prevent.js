@@ -8,7 +8,7 @@ class FormPrevent extends HTMLElement {
   // Get form attributes
   getFormAttributes() {
     let html = "";
-    const skip = ["salt"];
+    const skip = ["salt", "secret1", "secret2"];
 
     [...this.attributes].forEach((attr) => {
       if (!skip.includes(attr.name)) {
@@ -31,7 +31,6 @@ class FormPrevent extends HTMLElement {
 
     const formdata = new FormData(this.form);
     const success = this.isSuccessful(formdata);
-    const action = e.currentTarget.getAttribute("action");
 
     this.triggerEventBefore(formdata, success);
 
@@ -47,7 +46,7 @@ class FormPrevent extends HTMLElement {
     formdata.append("fp_sleep", this.sleep);
 
     let request = new XMLHttpRequest();
-    request.open("POST", action);
+    request.open("POST", this.action);
     request.send(formdata);
     request.onload = () => {
       this.triggerEventAfter(request.response);
@@ -121,7 +120,7 @@ class FormPrevent extends HTMLElement {
     return success;
   }
 
-  // Sleep
+  // Wait
   wait(ms) {
     return new Promise((resolve) => {
       clearTimeout(this.timeout);
@@ -131,9 +130,12 @@ class FormPrevent extends HTMLElement {
 
   // Connected callback
   connectedCallback() {
+    const sleep = this.getAttribute("sleep");
     this.salt = this.getAttribute("salt");
-    this.sleep = parseInt(this.getAttribute("sleep"));
-    this.rulesetPath = this.getAttribute("ruleset");
+    this.sleep = sleep ? parseInt(sleep) : 2;
+    this.rulesetPath = window.atob(this.getAttribute("secret2"));
+    this.action = window.atob(this.getAttribute("secret1"));
+
     this.innerHTML = `
       <form ${this.getFormAttributes()}>
       ${this.innerHTML}
